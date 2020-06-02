@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">BinderFuzzy</string>
+    <string name="main_new_text">NEW</string>
+    <string name="main_recent_text">RECENT</string>
+</resources>

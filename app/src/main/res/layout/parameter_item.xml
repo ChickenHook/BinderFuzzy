@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TITLE"
+        android:id="@+id/parameter_item_title"
+        android:padding="7dp"/>
+    <TextView
+        android:layout_toEndOf="@+id/parameter_item_title"
+        android:text="TYPE"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/parameter_item_type"
+        android:padding="7dp"/>
+</RelativeLayout>

@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" >
+
+    <item
+        android:id="@+id/param_configurator_menu_save"
+        android:title="SAVE"
+        android:orderInCategory="10"
+        android:icon="@android:drawable/ic_menu_save"
+        app:showAsAction="ifRoom" />
+</menu>
