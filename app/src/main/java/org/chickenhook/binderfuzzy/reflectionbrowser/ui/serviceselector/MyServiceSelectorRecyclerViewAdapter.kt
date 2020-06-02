@@ -1,22 +1,20 @@
 package org.chickenhook.binderfuzzy.reflectionbrowser.ui.serviceselector
 
-import androidx.recyclerview.widget.RecyclerView
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.fragment_service_selector.view.*
 import org.chickenhook.binderfuzzy.R
-
-
 import org.chickenhook.binderfuzzy.reflectionbrowser.ui.serviceselector.ServiceSelectorFragment.OnListFragmentInteractionListener
 import org.chickenhook.binderfuzzy.reflectionbrowser.ui.serviceselector.items.ClassItem
 
-import kotlinx.android.synthetic.main.fragment_service_selector.view.*
-
 /**
- * [RecyclerView.Adapter] that can display a [ClassItem] and makes a call to the
- * specified [OnListFragmentInteractionListener].
- * TODO: Replace the implementation with code for your data type.
+ * This class displays all System services available for our App.
+ *
+ * Once the user selected one service we trigger our OnListFragmentInteractionListener callback.
  */
 class MyServiceSelectorRecyclerViewAdapter(
     private val mValues: List<ClassItem>,

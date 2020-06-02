@@ -1,13 +1,11 @@
 package org.chickenhook.binderfuzzy.fuzzcreator.ui.paramconfig
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.ArrayAdapter
-import android.widget.CheckBox
-import android.widget.EditText
-import android.widget.ListView
+import android.widget.*
 import androidx.fragment.app.Fragment
 import org.chickenhook.binderfuzzy.R
 import org.chickenhook.binderfuzzy.R.id.param_configurator_integer_const
@@ -68,6 +66,10 @@ class ParamConfigurator : Fragment() {
     ): View? {
         if (parameter.type == Integer::class.java || parameter.type == Integer.TYPE) {
             return inflateInteger(inflater, container, savedInstanceState)
+        } else if (parameter.type == String::class.java) {
+            return inflateString(inflater, container, savedInstanceState)
+        } else if(parameter.type == Intent::class.java){
+            return inflateIntent(inflater, container, savedInstanceState)
         }
         return inflateGeneric(inflater, container, savedInstanceState);
     }
@@ -95,7 +97,29 @@ class ParamConfigurator : Fragment() {
         return v;
     }
 
-    fun inflateString() {}
+    fun inflateString(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        val v = inflater.inflate(R.layout.param_configurator_generic, container, false)
+        items.add(AutoSearchItem(parameter))
+        items.add(NullItem())
+        items.add(PackageNamesItem())
+        initListView(v.findViewById(R.id.param_config_selector), items);
+        return v;
+    }
+
+    fun inflateIntent(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        val v = inflater.inflate(R.layout.param_configurator_generic, container, false)
+        items.add(AutoSearchItem(parameter))
+        items.add(NullItem())
+        items.add(LaunchIntentsItem())
+        initListView(v.findViewById(R.id.param_config_selector), items);
+        return v;
+    }
 
     fun inflateBinder(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -157,7 +181,30 @@ class ParamConfigurator : Fragment() {
 
     }
 
-    open class LaunchIntentsItem() : GenericParamConfigItem(){
+    open class LaunchIntentsItem() : GenericParamConfigItem() {
+        var v: View? = null
+        lateinit var checkBox: CheckBox
+
+        override fun getView(layoutInflater: LayoutInflater, parent: ViewGroup): View {
+            if (v != null) return v!!
+            v = layoutInflater.inflate(R.layout.param_configurator_null, parent, false)
+            v!!.findViewById<TextView>(R.id.paramconfigurator_null_title)?.let{
+                it.text="Collect launch items of all apps"
+            }
+            checkBox = v!!.findViewById(R.id.param_configurator_null_checkbox)
+            return v!!
+        }
+
+        override fun getConfiguration(): ParamConfig? {
+            if (checkBox.isChecked) {
+                return LaunchIntentsConfig()
+            } else {
+                return null
+            }
+        }
+    }
+
+    open class PackageNamesItem() : GenericParamConfigItem() {
         var v: View? = null
         lateinit var checkBox: CheckBox
 
@@ -165,20 +212,22 @@ class ParamConfigurator : Fragment() {
             if (v != null) return v!!
             v = layoutInflater.inflate(R.layout.param_configurator_null, parent, false)
             checkBox = v!!.findViewById(R.id.param_configurator_null_checkbox)
-            checkBox.text="LaunchIntentsItem"
+            v!!.findViewById<TextView>(R.id.paramconfigurator_null_title)?.let{
+                it.text="Collect package names of all apps"
+            }
             return v!!
         }
 
         override fun getConfiguration(): ParamConfig? {
             if (checkBox.isChecked) {
-                return NullConfig()
+                return PackageNamesConfig()
             } else {
                 return null
             }
         }
     }
 
-    open class NullItem() : GenericParamConfigItem(){
+    open class NullItem() : GenericParamConfigItem() {
         var v: View? = null
         lateinit var checkBox: CheckBox
 

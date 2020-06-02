@@ -15,6 +15,9 @@ class FuzzTask(val id: Int, val hostObj: Any, val method: Method) {
     lateinit var context: Context
     lateinit var onFuzzTaskUpdateListener: OnFuzzTaskUpdateListener
 
+    /**
+     * Executes this task
+     */
     fun execute(context: Context, onFuzzTaskUpdateListener: OnFuzzTaskUpdateListener) {
         this.context = context
         this.onFuzzTaskUpdateListener = onFuzzTaskUpdateListener
@@ -25,47 +28,43 @@ class FuzzTask(val id: Int, val hostObj: Any, val method: Method) {
             log("Parameters not configured... abort!")
             return;
         }
-//        log("Process configuration..")
-        var success = 0
-        var curr = 0
+        var success = 0L
+        var curr = 0L
         try {
             processConfigsAndRun {
                 curr++
-                if (perform(obj, it)) {
+                try {
+                    perform(obj, it)
                     success++
+                    onFuzzTaskUpdateListener.success(curr, it.toString())
                     log("Successful <${curr}>")
+                } catch (exception: InvocationTargetException) {
+                    onFuzzTaskUpdateListener.fail(curr, exception)
+                    log("=> skipping due to: " + exception.targetException.message)
                 }
             }
             log("Successful runs $success/${curr}}")
         } catch (ex: Exception) {
             log("Error while execute fuzzing task", ex)
         }
-
-//        val configSets = ArrayList<ConfigurationSet>()
-//        if (paramConfigs.size == 0) {
-//            configSets.add(ConfigurationSet())
-//        } else {
-//            configSets.addAll(processConfigs(ArrayList()))
-//        }
-//        log("Performing <${configSets.size}> fuzzing runs..")
-//        var success = 0
-//        configSets.forEachIndexed { i, it ->
-//            log(">> ${i + 1}/${configSets.size} <<")
-//            if (perform(obj, it)) {
-//                success++
-//                log("Successful <${i + 1}>")
-//            }
-////            SystemClock.sleep(50)//TODO configure
-//        }
-//        log("Successful runs $success/${configSets.size}")
     }
 
+    /**
+     * Brutes through all config sets and call the given lambda.
+     *
+     * @param callback will be called for each configuration that should be executed
+     */
     fun processConfigsAndRun(callback: (ConfigurationSet) -> Unit): Long {
         log("Preparing fuzz configuration")
         // prepare
-        var indizies = Array<Long>(paramConfigs.size) { 0L }
-        val lengths = Array<Long>(paramConfigs.size) { 0L }
-        val values = Array<ArrayList<ParamConfig>>(paramConfigs.size) { ArrayList() }
+        var indizies =
+            Array(paramConfigs.size) { 0L } // represents the current config index for each parameter
+        val lengths =
+            Array(paramConfigs.size) { 0L } // represents the amount of configs for each paramter
+        val values =
+            Array<ArrayList<ParamConfig>>(paramConfigs.size) { ArrayList() } // list of available configs
+
+        // create list array of config lists. Every parameter must have one configuration list with size>0
         paramConfigs.forEach { it ->
             val processedList = ArrayList<ParamConfig>()
             it.value.forEach {
@@ -81,6 +80,7 @@ class FuzzTask(val id: Int, val hostObj: Any, val method: Method) {
             prod *= it
         }
         log("Performing <${prod}> fuzzing iterations..")
+        onFuzzTaskUpdateListener.onStart(prod)
         SystemClock.sleep(1000) // give some time for reading!
         // perform
         var iteration = 0L;
@@ -102,6 +102,25 @@ class FuzzTask(val id: Int, val hostObj: Any, val method: Method) {
         return prod
     }
 
+    /**
+     * Increment indizies representing the next "iteration".
+     *
+     * We brute through all available param configs so we have to increase the values for each param.
+     *
+     * Example (lengths: 10-3-1-5):
+     *
+     * 1. round
+     * 0-0-0-0
+     * 2. round
+     * 0-0-0-1
+     * ...
+     * 6. round
+     * 0-0-1-0
+     * ...
+     * 12.round
+     * 0-1-0-0
+     * ...
+     */
     fun increment(
         lengths: Array<Long>,
         indizies: Array<Long>,
@@ -118,7 +137,7 @@ class FuzzTask(val id: Int, val hostObj: Any, val method: Method) {
                         divisor *= lengths[i].toInt()
                     }
                 }
-                val quotient:Long = rest / divisor
+                val quotient: Long = rest / divisor
                 indizies[currIndex] = quotient
                 rest -= quotient * divisor
             } else {
@@ -126,66 +145,35 @@ class FuzzTask(val id: Int, val hostObj: Any, val method: Method) {
             }
             currIndex++
         }
-//        indizies.forEachIndexed { i, it ->
-//            log("Index at $i = $it")
-//        }
-//        if (iteration > lengths[currIndex] * factor) {
-//            increment(lengths, indizies, iteration, currIndex - 1)
-//        }
     }
 
-    fun processConfigs(
-        configSets: ArrayList<ConfigurationSet>,
-        paramId: Int = paramConfigs.size - 1
-    ): ArrayList<ConfigurationSet> {
-        if (paramId == 0) { // create single list
-            paramConfigs[paramId]?.values?.forEach {
-                val configs = it.prozessRanges(context, onFuzzTaskUpdateListener)
-                configs.forEach {
-                    val configurationSet = ConfigurationSet()
-                    configurationSet.params.add(it.getValue())
-                    configSets.add(configurationSet)
-                }
-            }
-            return configSets;
-        }
-        val list = processConfigs(configSets, paramId - 1)
-        val newList = ArrayList<ConfigurationSet>()
-        list.forEach { existingSet -> // for every list create new single list
-            paramConfigs[paramId]?.values?.forEach {
-                it.prozessRanges(context, onFuzzTaskUpdateListener).forEach {
-                    val configSet = ConfigurationSet()
-                    configSet.params.addAll(existingSet.params)
-                    configSet.params.add(it)
-                    newList.add(configSet)
-                }
-            }
-        }
-        return newList
-    }
-
+    /**
+     * Executes a call to the service using the given configurationSet.
+     *
+     * @param service the object instance to perform the call on
+     * @param configurationSet containing the parameter values to be used for the call
+     * @return true on success
+     */
     private fun perform(service: Any, configurationSet: ConfigurationSet): Boolean {
         method.isAccessible = true
-        try {
-            log("Do invoke ${method.name}(${configurationSet.params.joinToString()})")
-            val res =
-                InvokeWorkaround.invoke(
-                    method,
-                    service,
-                    configurationSet.params.toTypedArray()
-                )
-            log("Got result $res")
-        } catch (exception: InvocationTargetException) {
-//            log("=> skipping due to:", exception.targetException)
-            log("=> skipping due to: " + exception.targetException.message)
-            return false
-        }
+        log("Do invoke ${method.name}(${configurationSet.params.joinToString()})")
+        val res =
+            InvokeWorkaround.invoke(
+                method,
+                service,
+                configurationSet.params.toTypedArray()
+            )
+        log("Got result $res")
+
         return true
     }
 
 
     interface OnFuzzTaskUpdateListener {
         fun log(message: String)
+        fun fail(id: Long, exception: java.lang.Exception)
+        fun success(id: Long, params: String)
+        fun onStart(amount: Long)
     }
 
     class ConfigurationSet { // represents configuration for one single iteration

@@ -3,7 +3,6 @@ package org.chickenhook.binderfuzzy.fuzzer.ui
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
-import android.view.MenuItem
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
@@ -23,7 +22,20 @@ class FuzzerConsole : AppCompatActivity(), FuzzTask.OnFuzzTaskUpdateListener {
 
     var fuzzId = 0
     var messages = ArrayList<String>()
+
+    @Volatile
+    var updateRow = 0
     var adapter: ArrayAdapter<String>? = null
+
+    @Volatile
+    var amount = 0L
+    var exceptionTypes = HashSet<Class<out Any>>()
+
+    @Volatile
+    var success = 0L
+
+    @Volatile
+    var failed = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +43,7 @@ class FuzzerConsole : AppCompatActivity(), FuzzTask.OnFuzzTaskUpdateListener {
         intent.extras?.let {
             fuzzId = it.getInt(ARG_FUZZ_ID)
         }
-        log("Initialize task $fuzzId")
+        logToUi("Initialize task $fuzzId")
         FuzzCreatorManager.getTaskById(fuzzId)?.let {
             FuzzerExecutor.enqueue(it, this, this)
         } ?: run {
@@ -48,12 +60,50 @@ class FuzzerConsole : AppCompatActivity(), FuzzTask.OnFuzzTaskUpdateListener {
         return adapter
     }
 
-    override fun log(message: String) {
-        Log.d("FuzzerConsole", message)
+    fun logToUi(message: String) {
         runOnUiThread {
             messages.add(message)
             adapter?.notifyDataSetChanged()
 //                    console_output.setSelection(adapter.count - 1);
+        }
+    }
+
+    override fun log(message: String) {
+        if (amount == 0L) {
+            logToUi(message)
+        }
+        Log.d("FuzzerConsole", message)
+    }
+
+    override fun fail(id: Long, exception: Exception) {
+        updateCounter(id, amount, success, failed++)
+        val exceptionType = exception::class.java
+        if (!exceptionTypes.contains(exceptionType)) {
+            logToUi(exceptionType.simpleName + ": " + exception.message)
+            exceptionTypes.add(exception::class.java)
+        }
+    }
+
+    override fun success(id: Long, params: String) {
+        updateCounter(id, amount, success++, failed)
+    }
+
+    override fun onStart(amount: Long) {
+        this.amount = amount
+        updateCounter(0, amount, 0, 0)
+        logToUi("Exceptions:")
+    }
+
+    fun updateCounter(curr: Long, max: Long, success: Long, failed: Long) {
+        runOnUiThread {
+            val str = "Running $curr/$max\n(success=$success, failed=$failed)"
+            if (updateRow == 0) {
+                updateRow = messages.size
+                messages.add(str)
+            } else {
+                messages[updateRow] = str
+            }
+            adapter?.notifyDataSetChanged()
         }
     }
 

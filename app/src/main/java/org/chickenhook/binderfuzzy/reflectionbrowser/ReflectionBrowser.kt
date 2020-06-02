@@ -14,6 +14,12 @@ import org.chickenhook.binderfuzzy.reflectionbrowser.ui.serviceselector.items.Cl
 import java.lang.reflect.Field
 import java.lang.reflect.Method
 
+/**
+ * This class represents the ReflectionBrowser Activity.
+ *
+ * The reflection browser allows users to browse classes and methods loaded into memory.
+ * The user can select them in order to perform actions.
+ */
 class ReflectionBrowser : AppCompatActivity(),
     ServiceSelectorFragment.OnListFragmentInteractionListener,
     ClassObjectFragment.OnListFragmentInteractionListener {
@@ -24,11 +30,16 @@ class ReflectionBrowser : AppCompatActivity(),
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container, ServiceSelectorFragment.newInstance())
-                .addToBackStack(""+this)
+                .addToBackStack("" + this)
                 .commit()
         }
     }
 
+    /**
+     * Called when a system service was selected.
+     *
+     * @param item the system service to be opened in ClassObjectFragment
+     */
     override fun onListFragmentInteraction(item: ClassItem?) {
         item?.let {
             supportFragmentManager.beginTransaction()
@@ -36,14 +47,19 @@ class ReflectionBrowser : AppCompatActivity(),
                     R.id.container,
                     ClassObjectFragment.newInstance(BrowserImpl.newObject(item.obj))
                 )
-                .addToBackStack(""+item)
+                .addToBackStack("" + item)
                 .commit()
         }
     }
 
+    /**
+     * Called when a Class member was selected
+     *
+     * @param item  the selected item. If item is a method we call the fuzzcreator.
+     *              If member was a field we open ClassObjectFragment in order to show again members.
+     */
     override fun onListFragmentInteraction(item: ClassMemberItem?) {
         item?.let {
-
             when (it.member) {
                 is Field -> {
                     // todo cover with if else
@@ -59,13 +75,12 @@ class ReflectionBrowser : AppCompatActivity(),
                                     BrowserImpl.newObject(value)
                                 )
                             )
-                            .addToBackStack(""+item)
+                            .addToBackStack("" + item)
                             .commit()
                     }
 
                 }
                 is Method -> {
-                    // todo start fuzz creator
                     val startIntent = Intent(this, FuzzCreator::class.java)
                     startIntent.putExtra(FuzzCreator.ARG_METHOD_NAME, it.member.toGenericString())
                     startIntent.putExtra(FuzzCreator.ARG_CLASS_NAME, it.member.declaringClass)
@@ -74,7 +89,7 @@ class ReflectionBrowser : AppCompatActivity(),
                 }
                 else -> {
                     // todo log!
-
+                    val e: Any = Log.e(BROWSER_TAG, "Unsupported type ${it.member}")
                 }
             }
 
@@ -83,5 +98,6 @@ class ReflectionBrowser : AppCompatActivity(),
 
     companion object {
         const val BROWSER_RESULT = "reflection_browser_result"
+        const val BROWSER_TAG = "ReflectionBrowser"
     }
 }

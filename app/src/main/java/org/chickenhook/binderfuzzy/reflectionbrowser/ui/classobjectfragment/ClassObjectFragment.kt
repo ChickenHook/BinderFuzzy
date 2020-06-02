@@ -17,9 +17,9 @@ import java.lang.reflect.Member
 import java.lang.reflect.Method
 
 /**
- * A fragment representing a list of Items.
- * Activities containing this fragment MUST implement the
- * [ClassObjectFragment.OnListFragmentInteractionListener] interface.
+ * Displays members of the given object.
+ *
+ * Once the user clicked a member we call our callback OnListFragmentInteractionListener.
  */
 class ClassObjectFragment : Fragment() {
 
@@ -72,6 +72,11 @@ class ClassObjectFragment : Fragment() {
         return (activity as ReflectionBrowser?)?.supportActionBar
     }
 
+    /**
+     * Convert class members into items that can be filled into the ListView.
+     *
+     * @param members the members to be converted
+     */
     fun asItems(members: List<Member>): List<ClassMemberItem> {
         val classMemberItem = ArrayList<ClassMemberItem>()
         members.forEach {
@@ -79,7 +84,7 @@ class ClassObjectFragment : Fragment() {
                 it.isAccessible = true
                 classMemberItem.add(
                     ClassMemberItem(
-                        it::class.java.simpleName+"  ",
+                        it::class.java.simpleName + "  ",
                         it.toGenericString() + " = " + it.get(obj),
                         it::class.java.simpleName,
                         it,
