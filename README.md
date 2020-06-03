@@ -49,11 +49,13 @@ The next screen lists all members: functions and fields.
 => If you click on a field the browser will open the object in a new Window.
 => If you click on a method the browser forwards this to the FuzzCreator.
 ```
+
 <img src="metadata/android/en-US/images/phoneScreenshots/Screenshot_20200603_181354_org.chickenhook.binderfuzzy.jpg" width="400">
 
 ### 3. Parameter configuration
 Now you have to configure the parameters of the call. Some parameters have special options like integers, strings and intents. You can open a feature request if you need more features here.
 However, you must click on each parameter and configure how the fuzzer shall gather the values for the call.
+
 <img src="metadata/android/en-US/images/phoneScreenshots/Screenshot_20200603_181445_org.chickenhook.binderfuzzy.jpg" width="400">
 
 ### Start the test
