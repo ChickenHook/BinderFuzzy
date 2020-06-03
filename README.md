@@ -19,13 +19,13 @@ Binder fuzzy can
 
 ### The Browser
 
-![alt text](metadata/android/en-US/images/image.png)
+![alt text](metadata/android/en-US/images/icon.png =250x)
 
 
-![alt text](metadata/android/en-US/images/phoneScreenshots/Screenshot_20200603_181445_org.chickenhook.binderfuzzy.jpg)
-![alt text](metadata/android/en-US/images/phoneScreenshots/Screenshot_20200603_181354_org.chickenhook.binderfuzzy.jpg)
-![alt text](metadata/android/en-US/images/phoneScreenshots/Screenshot_20200603_181407_org.chickenhook.binderfuzzy.jpg)
-![alt text](metadata/android/en-US/images/phoneScreenshots/Screenshot_20200603_181349_org.chickenhook.binderfuzzy.jpg)
+![alt text](metadata/android/en-US/images/phoneScreenshots/Screenshot_20200603_181445_org.chickenhook.binderfuzzy.jpg =450x)
+![alt text](metadata/android/en-US/images/phoneScreenshots/Screenshot_20200603_181354_org.chickenhook.binderfuzzy.jpg =450x)
+![alt text](metadata/android/en-US/images/phoneScreenshots/Screenshot_20200603_181407_org.chickenhook.binderfuzzy.jpg =450x)
+![alt text](metadata/android/en-US/images/phoneScreenshots/Screenshot_20200603_181349_org.chickenhook.binderfuzzy.jpg =450x)
 
 
 ### Parameter configuration
