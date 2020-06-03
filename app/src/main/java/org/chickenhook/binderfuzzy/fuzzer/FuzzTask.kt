@@ -2,15 +2,22 @@ package org.chickenhook.binderfuzzy.fuzzer
 
 import android.content.Context
 import android.os.SystemClock
+import android.util.Log
 import org.chickenhook.binderfuzzy.fuzzer.params.ParamConfig
+import org.chickenhook.binderfuzzy.storage.AppDatabase
+import org.chickenhook.binderfuzzy.storage.FuzzyTaskInfo
 import org.chickenhook.binderfuzzy.utils.InvokeWorkaround
 import java.io.PrintWriter
 import java.io.StringWriter
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class FuzzTask(val id: Int, val hostObj: Any, val method: Method) {
 
+    val fuzzyLog = FuzzyLog()
     val paramConfigs = HashMap<Int, HashMap<String, ParamConfig>>()
     lateinit var context: Context
     lateinit var onFuzzTaskUpdateListener: OnFuzzTaskUpdateListener
@@ -24,13 +31,15 @@ class FuzzTask(val id: Int, val hostObj: Any, val method: Method) {
         val obj = hostObj
         log("Call: ${method.toGenericString()}")
         log("Configurations: ${paramConfigs.size}")
-        if (paramConfigs.size != method.parameterCount) {
-            log("Parameters not configured... abort!")
-            return;
-        }
-        var success = 0L
-        var curr = 0L
+
         try {
+            insertTaskEntry()
+            if (paramConfigs.size != method.parameterCount) {
+                log("Parameters not configured... abort!")
+                return;
+            }
+            var success = 0L
+            var curr = 0L
             processConfigsAndRun {
                 curr++
                 try {
@@ -44,8 +53,10 @@ class FuzzTask(val id: Int, val hostObj: Any, val method: Method) {
                 }
             }
             log("Successful runs $success/${curr}}")
+            fuzzyLog.close()
         } catch (ex: Exception) {
             log("Error while execute fuzzing task", ex)
+            Log.e("FuzzTask", "error", ex)
         }
     }
 
@@ -188,12 +199,32 @@ class FuzzTask(val id: Int, val hostObj: Any, val method: Method) {
 
     fun log(message: String) {
         onFuzzTaskUpdateListener.log(message)
+        fuzzyLog.log(message+"\n")
     }
 
     fun log(message: String, exception: Throwable) {
         val sw = StringWriter()
         exception.printStackTrace(PrintWriter(sw))
         val exceptionAsString: String = sw.toString()
-        onFuzzTaskUpdateListener.log(message + "\n" + exceptionAsString)
+        onFuzzTaskUpdateListener.log(message + "\n" + exceptionAsString+"\n")
+        fuzzyLog.log(message + "\n" + exceptionAsString)
+        Log.e("FuzzTask", "error", exception)
+    }
+
+
+    ////////////////////////// DATABASE /////////////////////
+
+    fun insertTaskEntry() {
+        val name =
+            Date().toLocaleString() + "_" + hostObj::class.java.name + "_" + method.toGenericString()
+        AppDatabase.get(context).fuzzyTaskInfoDao().insertAll(
+            FuzzyTaskInfo(
+                0,
+                name,
+                hostObj::class.java.name,
+                method.toGenericString(),
+                fuzzyLog.open(context, name).absolutePath
+            )
+        )
     }
 }

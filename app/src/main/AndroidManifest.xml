@@ -11,6 +11,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".reflectionbrowser.RecentsActivity"></activity>
         <activity
             android:name=".fuzzer.ui.FuzzerConsole"
             android:screenOrientation="locked" />
@@ -30,4 +31,5 @@
             </intent-filter>
         </activity>
     </application>
+
 </manifest>

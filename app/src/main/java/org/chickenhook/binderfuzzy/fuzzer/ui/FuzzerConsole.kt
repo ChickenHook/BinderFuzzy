@@ -12,12 +12,14 @@ import org.chickenhook.binderfuzzy.R
 import org.chickenhook.binderfuzzy.fuzzcreator.FuzzCreatorManager
 import org.chickenhook.binderfuzzy.fuzzer.FuzzTask
 import org.chickenhook.binderfuzzy.fuzzer.FuzzerExecutor
+import java.io.File
 
 
 class FuzzerConsole : AppCompatActivity(), FuzzTask.OnFuzzTaskUpdateListener {
 
     companion object {
         const val ARG_FUZZ_ID = "fuzz-id"
+        const val ARG_LOG_FILE = "log-file"
     }
 
     var fuzzId = 0
@@ -40,18 +42,35 @@ class FuzzerConsole : AppCompatActivity(), FuzzTask.OnFuzzTaskUpdateListener {
     @Volatile
     var failed = 0L
 
+    var logFile: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fuzzer_console)
         intent.extras?.let {
+
+            logFile = it.getString(ARG_LOG_FILE,"")
             fuzzId = it.getInt(ARG_FUZZ_ID)
         }
-        logToUi("Initialize task $fuzzId")
-        FuzzCreatorManager.getTaskById(fuzzId)?.let {
-            FuzzerExecutor.enqueue(it, this, this)
-        } ?: run {
-            log("=> no task fund with id <$fuzzId>")
+        if (logFile == "") {
+            logToUi("Initialize task $fuzzId")
+            FuzzCreatorManager.getTaskById(fuzzId)?.let {
+                FuzzerExecutor.enqueue(it, this, this)
+            } ?: run {
+                log("=> no task fund with id <$fuzzId>")
+            }
+        } else {
+            logToUi("File: $logFile")
+            Thread() {
+                logFile?.let{
+                    File(it).forEachLine {
+                        logToUi(it)
+                    }
+                }
+
+            }.start()
         }
+
         adapter = initListView(console_output)
     }
 
