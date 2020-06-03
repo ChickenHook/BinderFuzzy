@@ -7,14 +7,24 @@
     tools:context=".MainActivity"
     android:layout_margin="40dp">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon2"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/main_new"
+        android:padding="50dp"
+        />
+
     <Button
         android:id="@+id/main_new"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/main_new_text"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:padding="50dp"/>
+        android:padding="50dp"
+        android:background="#6E0000"
+        android:layout_centerVertical="true"/>
 
     <Button
         android:id="@+id/main_recent"
@@ -22,6 +32,29 @@
         android:layout_height="wrap_content"
         android:text="@string/main_recent_text"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:padding="50dp"/>
+        android:padding="50dp"
+        android:layout_centerVertical="true"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/github"
+
+            android:id="@+id/github"
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/donate"
+
+            android:id="@+id/support"
+            />
+    </LinearLayout>
+
 </RelativeLayout>
