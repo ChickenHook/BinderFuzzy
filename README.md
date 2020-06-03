@@ -1,5 +1,8 @@
 # BinderFuzzy
 
+<img src="metadata/android/en-US/images/icon.png" width="150">
+
+
 An App intended for fuzzing the Binder interface and System Services of Android.
 You can use this App for finding bugs and exploits inside the Binder interface or System services at Java level.
 
@@ -19,14 +22,10 @@ Binder fuzzy can
 
 ### The Browser
 
-![alt text](metadata/android/en-US/images/icon.png =250x)
-
-<img src="metadata/android/en-US/images/icon.png" width="150">
-
-![alt text](metadata/android/en-US/images/phoneScreenshots/Screenshot_20200603_181445_org.chickenhook.binderfuzzy.jpg =450x)
-![alt text](metadata/android/en-US/images/phoneScreenshots/Screenshot_20200603_181354_org.chickenhook.binderfuzzy.jpg =450x)
-![alt text](metadata/android/en-US/images/phoneScreenshots/Screenshot_20200603_181407_org.chickenhook.binderfuzzy.jpg =450x)
-![alt text](metadata/android/en-US/images/phoneScreenshots/Screenshot_20200603_181349_org.chickenhook.binderfuzzy.jpg =450x)
+<img src="metadata/android/en-US/images/phoneScreenshots/Screenshot_20200603_181445_org.chickenhook.binderfuzzy.jpg" width="400">
+<img src="metadata/android/en-US/images/phoneScreenshots/Screenshot_20200603_181354_org.chickenhook.binderfuzzy.jpg" width="400">
+<img src="metadata/android/en-US/images/phoneScreenshots/Screenshot_20200603_181407_org.chickenhook.binderfuzzy.jpg" width="400">
+<img src="metadata/android/en-US/images/phoneScreenshots/Screenshot_20200603_181349_org.chickenhook.binderfuzzy.jpg" width="400">
 
 
 ### Parameter configuration
