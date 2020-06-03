@@ -16,21 +16,31 @@ See our video: []()
 
 Binder fuzzy can
 
+## Using python
+
+WIP
+
 ## Using App
 
 
 
 ### The Browser
 
-<img src="metadata/android/en-US/images/phoneScreenshots/Screenshot_20200603_181445_org.chickenhook.binderfuzzy.jpg" width="400">
-<img src="metadata/android/en-US/images/phoneScreenshots/Screenshot_20200603_181354_org.chickenhook.binderfuzzy.jpg" width="400">
-<img src="metadata/android/en-US/images/phoneScreenshots/Screenshot_20200603_181407_org.chickenhook.binderfuzzy.jpg" width="400">
+#### 1. Select System Service to attack
+
 <img src="metadata/android/en-US/images/phoneScreenshots/Screenshot_20200603_181349_org.chickenhook.binderfuzzy.jpg" width="400">
+
+#### 2. Select function or objects to create the call
+
+<img src="metadata/android/en-US/images/phoneScreenshots/Screenshot_20200603_181354_org.chickenhook.binderfuzzy.jpg" width="400">
+
+#### 3. Finaly select a method
+<img src="metadata/android/en-US/images/phoneScreenshots/Screenshot_20200603_181407_org.chickenhook.binderfuzzy.jpg" width="400">
 
 
 ### Parameter configuration
+<img src="metadata/android/en-US/images/phoneScreenshots/Screenshot_20200603_181445_org.chickenhook.binderfuzzy.jpg" width="400">
 
 
-## Using python
 
-WIP
+
