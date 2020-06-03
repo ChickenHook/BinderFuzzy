@@ -21,6 +21,7 @@ Binder fuzzy can
 
 ![alt text](metadata/android/en-US/images/icon.png =250x)
 
+<img src="metadata/android/en-US/images/icon.png" width="150">
 
 ![alt text](metadata/android/en-US/images/phoneScreenshots/Screenshot_20200603_181445_org.chickenhook.binderfuzzy.jpg =450x)
 ![alt text](metadata/android/en-US/images/phoneScreenshots/Screenshot_20200603_181354_org.chickenhook.binderfuzzy.jpg =450x)
