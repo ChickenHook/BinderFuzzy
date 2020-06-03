@@ -10,18 +10,26 @@ You can use this App for finding bugs and exploits inside the Binder interface o
 
 Binder fuzzy can be used via the python client or via the App itself. Choose one for your needs.
 
-## Using python
+## Using the Python script
+
+### Prerequisites
+* Python 3.0
+* Ubuntu Linux 18.04
+
+### Installation
 
 WIP
 
-## Using Android App
+## Using the Android App
 
-Prerequisites
+### Prerequisites
 
-```
-1. Install the App [Download]()
-2. Click 'NEW' to create a new fuzzing action
-```
+* Android 6 or greater
+
+### Installation
+
+* Download APK here []()
+* Enable unknown source during installation
 
 See our video: []()
 
@@ -37,19 +45,20 @@ First step is to select a System Service we're going to fuzz. After a click on t
 #### 2. Select function or objects to create the call
 
 The next screen lists all members: functions and fields. 
+```
 => If you click on a field the browser will open the object in a new Window.
 => If you click on a method the browser forwards this to the FuzzCreator.
-
+```
 <img src="metadata/android/en-US/images/phoneScreenshots/Screenshot_20200603_181354_org.chickenhook.binderfuzzy.jpg" width="400">
 
-#### 3. Finaly select a method
-<img src="metadata/android/en-US/images/phoneScreenshots/Screenshot_20200603_181407_org.chickenhook.binderfuzzy.jpg" width="400">
-
-
-### Parameter configuration
+### 3. Parameter configuration
+Now you have to configure the parameters of the call. Some parameters have special options like integers, strings and intents. You can open a feature request if you need more features here.
+However, you must click on each parameter and configure how the fuzzer shall gather the values for the call.
 <img src="metadata/android/en-US/images/phoneScreenshots/Screenshot_20200603_181445_org.chickenhook.binderfuzzy.jpg" width="400">
 
 ### Start the test
+Once you're finished you can press the START button and the test begins.
+
 <img src="metadata/android/en-US/images/phoneScreenshots/Screenshot_20200603_212647_org.chickenhook.binderfuzzy.jpg" width="400">
 
 
