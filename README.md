@@ -28,7 +28,7 @@ WIP
 
 ### Installation
 
-* Download APK here []()
+* Download APK [here](https://github.com/ChickenHook/BinderFuzzy/releases/download/0.1/binderfuzzy-release.apk)
 * Enable unknown source during installation
 
 See our video: []()
