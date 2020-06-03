@@ -216,7 +216,7 @@ class FuzzTask(val id: Int, val hostObj: Any, val method: Method) {
 
     fun insertTaskEntry() {
         val name =
-            Date().toLocaleString() + "_" + hostObj::class.java.name + "_" + method.toGenericString()
+            Date().toLocaleString() + "_" + hostObj::class.java.name + "_" + method.name
         AppDatabase.get(context).fuzzyTaskInfoDao().insertAll(
             FuzzyTaskInfo(
                 0,

@@ -9,23 +9,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        android:text="Range" />
+        android:text="Range"/>
 
     <EditText
         android:id="@+id/param_configurator_integer_range_from"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:ems="10"
         android:hint="from"
-        android:padding="5dp"
-        android:layout_weight="1"/>
+        android:inputType="number"
+        android:padding="5dp"/>
 
     <EditText
         android:id="@+id/param_configurator_integer_range_to"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:ems="10"
         android:hint="to"
-        android:padding="5dp"
-        android:layout_weight="1"/>
+        android:inputType="number"
+        android:padding="5dp"/>
 </LinearLayout>

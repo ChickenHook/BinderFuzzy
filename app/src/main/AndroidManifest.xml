@@ -17,7 +17,8 @@
             android:screenOrientation="locked" />
         <activity
             android:name=".fuzzcreator.FuzzCreator"
-            android:screenOrientation="locked" />
+            android:screenOrientation="locked"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".reflectionbrowser.ReflectionBrowser"
             android:screenOrientation="locked" />
