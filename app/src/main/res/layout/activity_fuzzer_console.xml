@@ -15,6 +15,6 @@
         android:background="@android:color/black"
         android:textColor="@android:color/white"
         android:stackFromBottom="true"
-        android:transcriptMode="alwaysScroll"
         />
+    <!--         android:transcriptMode="alwaysScroll"-->
 </LinearLayout>

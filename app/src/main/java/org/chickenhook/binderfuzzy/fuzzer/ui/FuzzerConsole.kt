@@ -24,6 +24,9 @@ class FuzzerConsole : AppCompatActivity(), FuzzTask.OnFuzzTaskUpdateListener {
     var messages = ArrayList<String>()
 
     @Volatile
+    var exceptionRow = 0
+
+    @Volatile
     var updateRow = 0
     var adapter: ArrayAdapter<String>? = null
 
@@ -75,23 +78,25 @@ class FuzzerConsole : AppCompatActivity(), FuzzTask.OnFuzzTaskUpdateListener {
         Log.d("FuzzerConsole", message)
     }
 
-    override fun fail(id: Long, exception: Exception) {
+    override fun fail(id: Long, exception: Throwable) {
         updateCounter(id, amount, success, failed++)
         val exceptionType = exception::class.java
         if (!exceptionTypes.contains(exceptionType)) {
-            logToUi(exceptionType.simpleName + ": " + exception.message)
+            addException((exceptionType.simpleName + ": " + exception.message))
             exceptionTypes.add(exception::class.java)
         }
     }
 
     override fun success(id: Long, params: String) {
         updateCounter(id, amount, success++, failed)
+        logToUi(params)
     }
 
     override fun onStart(amount: Long) {
         this.amount = amount
         updateCounter(0, amount, 0, 0)
-        logToUi("Exceptions:")
+        addException("Exceptions:")
+        logToUi("Successful params:")
     }
 
     fun updateCounter(curr: Long, max: Long, success: Long, failed: Long) {
@@ -102,6 +107,18 @@ class FuzzerConsole : AppCompatActivity(), FuzzTask.OnFuzzTaskUpdateListener {
                 messages.add(str)
             } else {
                 messages[updateRow] = str
+            }
+            adapter?.notifyDataSetChanged()
+        }
+    }
+
+    fun addException(message: String) {
+        runOnUiThread {
+            if (exceptionRow == 0) {
+                exceptionRow = messages.size
+                messages.add(message)
+            } else {
+                messages[exceptionRow] = messages[exceptionRow] + "\n\n" + message
             }
             adapter?.notifyDataSetChanged()
         }

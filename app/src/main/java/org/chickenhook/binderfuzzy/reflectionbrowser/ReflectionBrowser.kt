@@ -30,8 +30,7 @@ class ReflectionBrowser : AppCompatActivity(),
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container, ServiceSelectorFragment.newInstance())
-                .addToBackStack("" + this)
-                .commit()
+                .commitNow()
         }
     }
 

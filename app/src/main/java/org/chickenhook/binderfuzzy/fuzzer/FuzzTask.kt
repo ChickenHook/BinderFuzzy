@@ -39,7 +39,7 @@ class FuzzTask(val id: Int, val hostObj: Any, val method: Method) {
                     onFuzzTaskUpdateListener.success(curr, it.toString())
                     log("Successful <${curr}>")
                 } catch (exception: InvocationTargetException) {
-                    onFuzzTaskUpdateListener.fail(curr, exception)
+                    onFuzzTaskUpdateListener.fail(curr, exception.targetException)
                     log("=> skipping due to: " + exception.targetException.message)
                 }
             }
@@ -171,13 +171,19 @@ class FuzzTask(val id: Int, val hostObj: Any, val method: Method) {
 
     interface OnFuzzTaskUpdateListener {
         fun log(message: String)
-        fun fail(id: Long, exception: java.lang.Exception)
+        fun fail(id: Long, exception: Throwable)
         fun success(id: Long, params: String)
         fun onStart(amount: Long)
     }
 
     class ConfigurationSet { // represents configuration for one single iteration
         val params = ArrayList<Any?>()
+
+        override fun toString(): String {
+            return "ConfigurationSet(params=${params.joinToString { it.toString() }})"
+        }
+
+
     }
 
     fun log(message: String) {
