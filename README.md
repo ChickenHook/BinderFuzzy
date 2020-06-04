@@ -105,6 +105,9 @@ Once you're finished you can press the START button and the test begins.
 
 ### Strange findings
 
+Passing user -3 as parameter will bypass the permission check.
+
+<img src="metadata/android/en-US/images/phoneScreenshots/Screenshot_20200530_153519_org.chickenhook.binderfuzzy.jpg" width="400">
 
 
 
