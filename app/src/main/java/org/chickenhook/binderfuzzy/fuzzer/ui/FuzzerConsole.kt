@@ -12,6 +12,8 @@ import org.chickenhook.binderfuzzy.R
 import org.chickenhook.binderfuzzy.fuzzcreator.FuzzCreatorManager
 import org.chickenhook.binderfuzzy.fuzzer.FuzzTask
 import org.chickenhook.binderfuzzy.fuzzer.FuzzerExecutor
+import org.chickenhook.binderfuzzy.fuzzer.script.Parser
+import org.chickenhook.binderfuzzy.utils.toFullString
 import java.io.File
 
 
@@ -22,7 +24,7 @@ class FuzzerConsole : AppCompatActivity(), FuzzTask.OnFuzzTaskUpdateListener {
         const val ARG_LOG_FILE = "log-file"
     }
 
-    var fuzzId = 0
+    var fuzzId = -1
     var messages = ArrayList<String>()
 
     @Volatile
@@ -49,29 +51,40 @@ class FuzzerConsole : AppCompatActivity(), FuzzTask.OnFuzzTaskUpdateListener {
         setContentView(R.layout.activity_fuzzer_console)
         intent.extras?.let {
 
-            logFile = it.getString(ARG_LOG_FILE,"")
-            fuzzId = it.getInt(ARG_FUZZ_ID)
+            logFile = it.getString(ARG_LOG_FILE, "")
+            fuzzId = it.getInt(ARG_FUZZ_ID, -1)
         }
         if (logFile == "") {
-            logToUi("Initialize task $fuzzId")
-            FuzzCreatorManager.getTaskById(fuzzId)?.let {
-                FuzzerExecutor.enqueue(it, this, this)
-            } ?: run {
-                log("=> no task fund with id <$fuzzId>")
-            }
-        } else {
+            launchTask()
+        } else if (fuzzId >= 0) {
             logToUi("File: $logFile")
             Thread() {
-                logFile?.let{
+                logFile?.let {
                     File(it).forEachLine {
                         logToUi(it)
                     }
                 }
 
             }.start()
+        } else {
+            try {
+                fuzzId = Parser.parseAndRegisterTask(this).id
+                launchTask()
+            } catch (exception: Exception) {
+                logToUi(exception.toFullString())
+            }
         }
 
         adapter = initListView(console_output)
+    }
+
+    fun launchTask() {
+        logToUi("Initialize task $fuzzId")
+        FuzzCreatorManager.getTaskById(fuzzId)?.let {
+            FuzzerExecutor.enqueue(it, this, this)
+        } ?: run {
+            log("=> no task fund with id <$fuzzId>")
+        }
     }
 
     fun initListView(view: ListView): ArrayAdapter<String> {

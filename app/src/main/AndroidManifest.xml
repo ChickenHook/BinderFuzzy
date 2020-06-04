@@ -14,7 +14,8 @@
         <activity android:name=".reflectionbrowser.RecentsActivity"></activity>
         <activity
             android:name=".fuzzer.ui.FuzzerConsole"
-            android:screenOrientation="locked" />
+            android:screenOrientation="locked"
+            android:exported="true"/>
         <activity
             android:name=".fuzzcreator.FuzzCreator"
             android:screenOrientation="locked"

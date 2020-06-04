@@ -20,6 +20,45 @@ Binder fuzzy can be used via the python client or via the App itself. Choose one
 
 WIP
 
+### Examples
+
+```bash
+python3 binderFuzzy.py --fuzzy-apk binderfuzzy-release.apk --script startActivity.bf
+```
+
+### Configuration
+
+```json
+{
+	"fields_ordered" : [
+	    {
+		    "clazz": "android.app.ActivityTaskManager",
+		    "field": "IActivityTaskManagerSingleton"
+	    },
+	    {
+	        "clazz": "android.util.Singleton",
+	        "field": "mInstance"
+	    }
+	],
+	"call" : {
+	    "clazz": "android.app.IActivityTaskManager",
+	    "method": "startActivity(",
+	    "params":[
+	        "auto",
+	        "packageNames",
+	        "launchIntents",
+	        "packageNames",
+	        "auto",
+	        "packageNames",
+	        "auto",
+	        "auto",
+	        "null",
+	        "auto"
+	    ]
+	}
+}
+```
+
 ## Using the Android App
 
 ### Prerequisites
