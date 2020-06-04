@@ -1,1 +1,2 @@
-Test t2
+An App intended for fuzzing the Binder interface and System Services of Android.
+You can use this Project in order to find bugs and exploits inside the Binder interface or System Services.
