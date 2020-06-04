@@ -4,7 +4,7 @@
 
 
 An App intended for fuzzing the Binder interface and System Services of Android.
-You can use this App for finding bugs and exploits inside the Binder interface or System services at Java level.
+You can use this Project in order to find bugs and exploits inside the Binder interface or System Services.
 
 # Usage
 
