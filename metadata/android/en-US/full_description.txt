@@ -1,1 +1,12 @@
-Test t1
+BinderFuzzy is a fuzzer that can generate binder events in order to pentest system services running on the Android operating system (https://developer.android.com/reference/android/os/Binder, https://source.android.com/devices/architecture/hidl/binder-ipc). You can validate if system services have correct error handling or transfer binder objects / tokens of other services in order to validate if the target system service validates binder arguments.
+
+This Project covers following features:
+
+* Browse managers and binder interfaces.
+* Execute Fuzzy tasks
+* Configure argument lists for each parameter of the method to fuzz
+* Read logs of recent tasks
+* Use python3 cli (optional) to execute fuzzer from desktop.
+* Define fuzzer script and execute via cli
+
+Enjoy our App!
