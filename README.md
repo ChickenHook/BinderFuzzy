@@ -12,6 +12,7 @@ Watch this Youtube Video for a quick introduction
 
 [![BinderFuzzy](https://yt-embed.herokuapp.com/embed?v=4uXdXq7E2Uw)](https://www.youtube.com/watch?v=4uXdXq7E2Uw "BinderFuzzy")
 
+Or this youku video (for Chinese watchers): https://v.youku.com/v_show/id_XNDcwMjk1NzUwMA==.html
 
 Binder fuzzy can be used via the python client or via the App itself. Choose one for your needs.
 
