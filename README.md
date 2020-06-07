@@ -28,9 +28,11 @@ Read the full documentation [here](https://androidreverse.wordpress.com/2020/06/
 
 ### Installation
 
-WIP
+1. Download tip [here](https://github.com/ChickenHook/BinderFuzzy/releases/download/c2/release.zip)
+2. unzip release.zip
+3. cd bin/
 
-### Examples
+### Examples execution
 
 ```bash
 python3 binderFuzzy.py --fuzzy-apk binderfuzzy-release.apk --script startActivity.bf
@@ -77,7 +79,7 @@ python3 binderFuzzy.py --fuzzy-apk binderfuzzy-release.apk --script startActivit
 
 ### Installation
 
-* Download APK [here](https://github.com/ChickenHook/BinderFuzzy/releases/download/0.1/binderfuzzy-release.apk)
+* Download APK [here](https://github.com/ChickenHook/BinderFuzzy/releases/download/c2/app-release.apk)
 * Enable unknown source during installation
 
 See our video: []()
