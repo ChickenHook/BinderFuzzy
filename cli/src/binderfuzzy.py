@@ -49,7 +49,7 @@ def checkScript(script_path):
 def main():
     print("Launching BinderFuzzy version: 1.0")
     parser = argparse.ArgumentParser(description='Process paths.')
-    parser.add_argument('--fuzzy-apk', nargs='?', default='data/binderfuzzy-release.apk',
+    parser.add_argument('--fuzzy-apk', nargs='?', default='../apps/release/app-release.apk',
                         dest='apk_path',
                         help='path to binderfuzzy-release.apk')
     parser.add_argument('--script', nargs='?', dest='script_path',

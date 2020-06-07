@@ -25,6 +25,27 @@ allprojects {
     }
 }
 
+task buildPackage {
+
+}
+
+task createCliPackage(type: Zip) {
+    from ('cli/src/') {
+        into ('/bin')
+    }
+    from ('cli/test/') {
+        into ('/examples/')
+    }
+    from fileTree ('app/build/outputs/apk/') {
+        into ('/apps')
+    }
+    from('README.md') {
+        into ('/docs/')
+    }
+    destinationDir(file("${rootDir}/"))
+    archiveName 'release.zip'
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
