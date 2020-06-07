@@ -8,6 +8,11 @@ You can use this Project in order to find bugs and exploits inside the Binder in
 
 # Usage
 
+Watch this Youtube Video for a quick introduction
+
+[![BinderFuzzy](https://yt-embed.herokuapp.com/embed?v=4uXdXq7E2Uw)](https://www.youtube.com/watch?v=4uXdXq7E2Uw "BinderFuzzy")
+
+
 Binder fuzzy can be used via the python client or via the App itself. Choose one for your needs.
 
 ## Using the Python script
