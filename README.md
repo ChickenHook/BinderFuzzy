@@ -16,6 +16,10 @@ Or this youku video (for Chinese watchers): https://v.youku.com/v_show/id_XNDcwM
 
 Binder fuzzy can be used via the python client or via the App itself. Choose one for your needs.
 
+# Documentation
+
+Read the full documentation [here](https://androidreverse.wordpress.com/2020/06/06/binderfuzzy/)
+
 ## Using the Python script
 
 ### Prerequisites
