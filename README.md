@@ -1,6 +1,6 @@
 # BinderFuzzy
 
-<img src="metadata/android/en-US/images/icon.png" width="150">
+<img src="fastlane/metadata/android/en-US/images/icon.png" width="150">
 
 
 An App intended for fuzzing the Binder interface and System Services of Android.
@@ -91,28 +91,28 @@ See our video: []()
 
 First step is to select a System Service we're going to fuzz. After a click on the "NEW" button the list of available Services appears and you can choose one.
 
-<img src="metadata/android/en-US/images/phoneScreenshots/Screenshot_20200603_181349_org.chickenhook.binderfuzzy.jpg" width="400">
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/Screenshot_20200603_181349_org.chickenhook.binderfuzzy.jpg" width="400">
 
 #### 2. Select function or objects to create the call
 
-The next screen lists all members: functions and fields. 
+The next screen lists all members: functions and fields.
 ```
 => If you click on a field the browser will open the object in a new Window.
 => If you click on a method the browser forwards this to the FuzzCreator.
 ```
 
-<img src="metadata/android/en-US/images/phoneScreenshots/Screenshot_20200603_181354_org.chickenhook.binderfuzzy.jpg" width="400">
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/Screenshot_20200603_181354_org.chickenhook.binderfuzzy.jpg" width="400">
 
 ### 3. Parameter configuration
 Now you have to configure the parameters of the call. Some parameters have special options like integers, strings and intents. You can open a feature request if you need more features here.
 However, you must click on each parameter and configure how the fuzzer shall gather the values for the call.
 
-<img src="metadata/android/en-US/images/phoneScreenshots/Screenshot_20200603_181445_org.chickenhook.binderfuzzy.jpg" width="400">
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/Screenshot_20200603_181445_org.chickenhook.binderfuzzy.jpg" width="400">
 
 ### Start the test
 Once you're finished you can press the START button and the test begins.
 
-<img src="metadata/android/en-US/images/phoneScreenshots/Screenshot_20200603_212647_org.chickenhook.binderfuzzy.jpg" width="400">
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/Screenshot_20200603_212647_org.chickenhook.binderfuzzy.jpg" width="400">
 
 
 ### Strange findings
@@ -121,7 +121,7 @@ Once you're finished you can press the START button and the test begins.
 
 Passing user -3 as parameter will bypass the permission check.
 
-<img src="metadata/android/en-US/images/phoneScreenshots/Screenshot_20200530_153519_org.chickenhook.binderfuzzy.jpg" width="400">
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/Screenshot_20200530_153519_org.chickenhook.binderfuzzy.jpg" width="400">
 
 
 
